@@ -24,8 +24,12 @@ response = requests.post(url=url, json=params)
 # pprint(response.json())
 channels = response.json()['data'][0]['items']
 # pprint(channels[0])
-with open('channels.txt', 'w', encoding='utf-8') as f:
+with open('channels.txt', 'w', encoding='utf-8') as f,\
+     open('channels_.txt', 'w', encoding='utf-8') as f_:
     for i in range(len(channels)):
         f.write(channels[i]['dimensions']['marker_level_1']['title'].replace(u'\xa0', ' ') + ': ' +\
+                str(channels[i]['metrics'][0]['value']) + '\n')
+        if channels[i]['metrics'][0]['value'] != 0:
+            f_.write(channels[i]['dimensions']['marker_level_1']['title'].replace(u'\xa0', ' ') + ': ' + \
                 str(channels[i]['metrics'][0]['value']) + '\n')
         pprint(channels[i]['dimensions']['marker_level_1']['title'])
